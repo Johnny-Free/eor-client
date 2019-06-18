@@ -1,0 +1,5 @@
+#exampleBox{
+    border: solid black .1em;
+    background: yellow;
+    max-width: 55%;
+}
