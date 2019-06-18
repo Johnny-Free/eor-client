@@ -120,7 +120,9 @@ export default class SearchContainer extends Component{
                 rEmail:document.getElementById('rEmail').value,
                 rBody:document.getElementById('rBody').value,
             });
-            var url = 'http://localhost:3001/api/request';
+
+            var url =  `https://eor-api-5811.herokuapp.com/api/request`;
+
             fetch(url, {
                 method:'post',
                 body: JSON.stringify(data),
@@ -134,6 +136,7 @@ export default class SearchContainer extends Component{
     }
 
     render(){
+        console.log(process.env.url)
         return(
             <div>
                 {this.state.flag4 && //header information

@@ -20,7 +20,8 @@ export default class Results extends Component{
     console.log('Component has mounted')
     console.log(cNumber);
     // fetch('http://localhost:3001/api/search/' + cNumber + '/a/' + cId + '/b/' + cDos + '/c/' + cBilled)
-    fetch(`http://localhost:3001/api/search/${cNumber}/${cId}/${cDos}/${cBilled}`) // /a/${cId}/b/${cDos}/c/${cBilled}`)
+    // fetch(`http://localhost:3001/api/search/${cNumber}/${cId}/${cDos}/${cBilled}`) // /a/${cId}/b/${cDos}/c/${cBilled}`) //working
+    fetch(`https://eor-api-5811.herokuapp.com/api/search/${cNumber}/${cId}/${cDos}/${cBilled}`)
       .then(function(response){
         response.json()
         .then(function(data){
