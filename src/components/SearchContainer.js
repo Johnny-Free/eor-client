@@ -136,7 +136,7 @@ export default class SearchContainer extends Component{
     }
 
     render(){
-        console.log(process.env.url)
+        // console.log(process.env.url)
         return(
             <div>
                 {this.state.flag4 && //header information
