@@ -7,7 +7,7 @@ export default class Header extends Component{
         return(
             <div id='parentHeader'>
                 <div id='header'>
-                    <h1>Generic Insurance Carrier EOR Request</h1>
+                    <h1>Generic Insurance Carrier Bill Status</h1>
                     <p>
                         EORs are only kept a year from the mail date and no EORs prior to 06/20/2019 will be available. 
                         If you require a copy of an EOR that is not available please 
