@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {Form, Col, Button} from 'react-bootstrap';
-import './SearchInput.css'
+import '../components/stylesheets/SearchInput.css'
 
 export default class SearchInput extends Component{
     render(){

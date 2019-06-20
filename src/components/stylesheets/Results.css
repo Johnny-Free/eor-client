@@ -13,5 +13,6 @@
 }
 
 th, td{
-    width:20em;;
+    width:20em;
+    border-bottom: gray solid .02em;
 }

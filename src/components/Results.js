@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import './Results.css';
+import '../components/stylesheets/Results.css';
 
 export default class Results extends Component{
   constructor(){
@@ -7,8 +7,14 @@ export default class Results extends Component{
     this.state = {
       bills:[]
     }
-  };
-      
+    this.didLoads=this.didLoads.bind(this)
+  }
+
+  didLoads(){
+    if(this.state.bills.length ===0){
+      this.props.handleOpenNoResults()
+    }
+  } 
   // get route. will need to enter search params to the route, fires when the component is rendered "mounted"
   componentDidMount(sClaim){
     var that=this;
@@ -16,7 +22,9 @@ export default class Results extends Component{
     var cId = this.props.sTaxId;
     var cDos = this.props.sDos;
     var cBilled = this.props.sBilled;
+    var check=this.didLoads
     fetch(`https://eor-api-5811.herokuapp.com/api/search/${cNumber}/${cId}/${cDos}/${cBilled}`)
+
       .then(function(response){
         response.json()
         .then(function(data){
@@ -24,6 +32,8 @@ export default class Results extends Component{
             bills : data
           });
         })
+        // .then(this.didLoads())
+        .then(check)
       })
   };
 

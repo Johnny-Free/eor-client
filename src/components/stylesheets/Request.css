@@ -1,0 +1,12 @@
+#parentEmail{
+    text-align: center;
+}
+
+#emailComponent{
+    width: 83%;
+    display: inline-block;
+}
+
+.rButton{
+    margin:.5em;
+}
