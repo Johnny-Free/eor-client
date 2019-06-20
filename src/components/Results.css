@@ -1,0 +1,17 @@
+#result{
+    width: 83%;
+    display:inline-block;
+    text-align: center;
+}
+
+#parentResult{
+    text-align: center;
+}
+
+.res:nth-child(odd){
+    background: lightgray;
+}
+
+th, td{
+    width:20em;;
+}

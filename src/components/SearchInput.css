@@ -1,0 +1,12 @@
+div#inputDiv{
+    width: 83%;
+    display: inline-block;
+}
+
+#parentInputDiv{
+    text-align: center;
+}
+
+.iButton{
+    margin:.5em;
+}

@@ -1,5 +1,14 @@
 #exampleBox{
     border: solid black .1em;
     background: yellow;
-    max-width: 55%;
+    /* max-width: 55%; */
+}
+
+#header{
+    width: 83%;
+    display: inline-block;
+}
+
+#parentHeader{
+    text-align: center;
 }

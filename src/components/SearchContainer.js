@@ -138,7 +138,7 @@ export default class SearchContainer extends Component{
     render(){
         // console.log(process.env.url)
         return(
-            <div>
+            <div className='sContainer'>
                 {this.state.flag4 && //header information
                     <Header
                         handleEmailClick={this.handleEmailClick}
