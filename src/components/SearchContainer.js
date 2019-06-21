@@ -14,8 +14,10 @@ import ModalEmailAddr from '../components/modals/ModalEmailAddr';
 import ModalEmailReq from '../components/modals/ModalEmailReq';
 import ModalEmailConf from '../components/modals/ModalEmailConf';
 import ModalNoResults from '../components/modals/ModalNoResults';
+import ModalTaxId3 from '../components/modals/ModalTaxId3';
 
 import '../components/stylesheets/SearchContainer.css'
+
 
 export default class SearchContainer extends Component{
     constructor(props){
@@ -36,6 +38,7 @@ export default class SearchContainer extends Component{
             show9:false, //request blank modal
             show10:false, //email confirmation modal
             show11:false, //no results modal
+            show12:false, //tax id number contains characters other than numeric
             sClaim:'', //search claim number input
             sTaxId:'', //search tax id input
             sDos:'', //search date of service input
@@ -72,6 +75,8 @@ export default class SearchContainer extends Component{
         this.handleCloseEmailConfirmation=this.handleCloseEmailConfirmation.bind(this);
         this.handleOpenNoResults=this.handleOpenNoResults.bind(this);
         this.handleCloseNoResults=this.handleCloseNoResults.bind(this);
+        this.handleOpenTaxId3=this.handleOpenTaxId3.bind(this);
+        this.handleCloseTaxId3=this.handleCloseTaxId3.bind(this);
     }
 
     //modal event handlers
@@ -97,9 +102,12 @@ export default class SearchContainer extends Component{
     handleCloseEmailConfirmation(){this.setState({show10:false});} //close email sent confirmation modal
     handleOpenNoResults(){this.setState({show11:true});} //open no search results modal
     handleCloseNoResults(){this.setState({show11:false});} //close no search results modal
+    handleOpenTaxId3(){this.setState({show12:true});} //opens tax id with non numeric char modal
+    handleCloseTaxId3(){this.setState({show12:false});} //close tax id with non numeric char modal
 
     //event handler for input
     handleSearchClick(event){
+        var isNum = /^-{0,1}\d+$/.test(document.getElementById('sTaxId').value); //checks for non-numeric in taxid
         event.preventDefault();
         if (document.getElementById('sClaim').value===''){ //if claim is blank modal will appear
             this.handleOpenClaim();
@@ -107,11 +115,23 @@ export default class SearchContainer extends Component{
             this.handleOpenTaxId1();
         }else if (document.getElementById('sTaxId').value.length !== 9){ //if tax id length <>9 modal will appear
             this.handleOpenTaxId2();
+        }else if (!isNum){ //checks to see if the var for non-numeric is false, modal will appear
+            this.handleOpenTaxId3(); 
         }else if (document.getElementById('sDos').value===''){ //if dos is blank modal will appear
             this.handleOpenDos();
         } else if (document.getElementById('sBilled').value===''){ //if billed is blank modal will appear
             this.handleOpenAmt();
-        } else {
+        }else if (((document.getElementById('sClaim').value).substring(0,2)!=='WC') &&
+            ((document.getElementById('sClaim').value).substring(0,2)!=='wc')){  //checks to see if the claim number starts with WC
+            this.setState({
+                sClaim:'WC'+document.getElementById('sClaim').value, //if the provider doesnt add a WC it concats one for the SQL search
+                sTaxId:document.getElementById('sTaxId').value,
+                sDos:document.getElementById('sDos').value,
+                sBilled:document.getElementById('sBilled').value,
+                flag2:true, //results component will render and will trigger the api   
+            });
+            document.getElementById('bSearch').disabled='true';
+        }else {
             this.setState({
                 sClaim:document.getElementById('sClaim').value.toUpperCase(), //if the provider uses lower case it convers to uppercase for SQL match
                 sTaxId:document.getElementById('sTaxId').value,
@@ -258,6 +278,11 @@ export default class SearchContainer extends Component{
                 <ModalNoResults //modal window for no results returned
                     handleCloseNoResults={this.handleCloseNoResults}
                     show11={this.state.show11}
+                />
+
+                <ModalTaxId3
+                    handleCloseTaxId3={this.handleCloseTaxId3}
+                    show12={this.state.show12}
                 />
                 
                 {this.state.flag4 && //header information
