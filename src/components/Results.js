@@ -10,7 +10,7 @@ export default class Results extends Component{
     this.didLoads=this.didLoads.bind(this)
   }
 
-  didLoads(){
+  didLoads(){ //function checks the response to see if it is blank, if blank fires function handleOpenNoResults a modal to tell the user the search returned no results
     if(this.state.bills.length ===0){
       this.props.handleOpenNoResults()
     }
@@ -32,8 +32,7 @@ export default class Results extends Component{
             bills : data
           });
         })
-        // .then(this.didLoads())
-        .then(check)
+        .then(check) //runs variable check that holds the function didLoad once after the response has been received
       })
   };
 

@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import {Button, Modal} from 'react-bootstrap';
 
-
 export default class ModalEmailReq extends Component{
     render(){
         return(

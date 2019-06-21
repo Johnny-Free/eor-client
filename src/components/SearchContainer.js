@@ -44,6 +44,7 @@ export default class SearchContainer extends Component{
             rEmail:'', // requestor's email address for email
             rBody:'', // requestor's email body
         }
+        //binding event handlers to this so they can be passed to children
         this.handleEmailSubmit=this.handleEmailSubmit.bind(this);
         this.handleSearchClick=this.handleSearchClick.bind(this);
         this.handleEmailClick=this.handleEmailClick.bind(this);
@@ -88,14 +89,14 @@ export default class SearchContainer extends Component{
     handleCloseAmt(){this.setState({show5:false})} //close the billed amt modal
     handleOpenRequestName(){this.setState({show7:true});} //open the requestors name modal
     handleCloseRequestName(){this.setState({show7:false});} //closes the requestors name modal
-    handleOpenEmailAddress(){this.setState({show8:true});}
-    handleCloseEmailAddress(){this.setState({show8:false});}
-    handleOpenEmailRequest(){this.setState({show9:true});}
-    handleCloseEmailRequest(){this.setState({show9:false});}
-    handleOpenEmailConfirmation(){this.setState({show10:true});}
-    handleCloseEmailConfirmation(){this.setState({show10:false});}
-    handleOpenNoResults(){this.setState({show11:true});}
-    handleCloseNoResults(){this.setState({show11:false});}
+    handleOpenEmailAddress(){this.setState({show8:true});} //open no email addr modal
+    handleCloseEmailAddress(){this.setState({show8:false});} //close no email addr modal
+    handleOpenEmailRequest(){this.setState({show9:true});} //open no email body modal
+    handleCloseEmailRequest(){this.setState({show9:false});} // close no email body modal
+    handleOpenEmailConfirmation(){this.setState({show10:true});} // open email sent confirmation modal
+    handleCloseEmailConfirmation(){this.setState({show10:false});} //close email sent confirmation modal
+    handleOpenNoResults(){this.setState({show11:true});} //open no search results modal
+    handleCloseNoResults(){this.setState({show11:false});} //close no search results modal
 
     //event handler for input
     handleSearchClick(event){
@@ -166,13 +167,10 @@ export default class SearchContainer extends Component{
     handleEmailSubmit(event){
         event.preventDefault();
         if(document.getElementById('rName').value===''){
-            // alert('Enter your name.')
             this.handleOpenRequestName();
         } else if (document.getElementById('rEmail').value==='') {
-            // alert('Enter an email address.')
             this.handleOpenEmailAddress();
         } else if (document.getElementById('rBody').value==='') {
-            // alert('Enter your request')
             this.handleOpenEmailRequest();
         } else {
             var data={
@@ -207,66 +205,57 @@ export default class SearchContainer extends Component{
         return(
             <div className='sContainer'>
 
-                <ModalClaim
-                    // handleOpenClaim={this.handleOpenClaim}
+                <ModalClaim //modal window for blank claim
                     handleCloseClaim={this.handleCloseClaim}
                     show2={this.state.show2}
                 />
 
-                <ModalTaxId1
-                    // handleOpenTaxId1={this.handleOpenTaxId1}
+                <ModalTaxId1 //modal window for blank tax id
                     handleCloseTaxId1={this.handleCloseTaxId1}
                     show3={this.state.show3}
                 />
 
-                <ModalTaxId2
-                    // handleOpenTaxId2={this.handleOpenTaxId2}
+                <ModalTaxId2 //modal window for tax id not 9 char
                     handleCloseTaxId2={this.handleCloseTaxId2}
                     show6={this.state.show6}
                 />
 
-                <ModalDos 
-                    // handleOpenDos={this.handleOpenDos}
+                <ModalDos //modal window for blank dos
                     handleCloseDos={this.handleCloseDos}
                     show4={this.state.show4}
                 />
 
-                <ModalAmt 
-                    // handleOpenAmt={this.handleOpenAmt}
+                <ModalAmt  //modal window for blank billed amount
                     handleCloseAmt={this.handleCloseAmt}
                     show5={this.state.show5}
                 />
 
-                <ModalExample
+                <ModalExample //modal window to show examples
                     handleCloseExample={this.handleCloseExample}
-                    // handleOpenExample={this.handleOpenExample}
                     show1={this.state.show1}
                 />
 
-                <ModalEmName
+                <ModalEmName //modal window for blank requestors name
                     handleCloseRequestName={this.handleCloseRequestName}
-                    // handleOpenRequestName={this.handleOpenRequestName}
                     show7={this.state.show7}
                 />
 
-                <ModalEmailAddr
-                    // handleOpenEmailAddress={this.handleOpenEmailAddress}
+                <ModalEmailAddr //modal window for blank email address
                     handleCloseEmailAddress={this.handleCloseEmailAddress}
                     show8={this.state.show8}
                 />
 
-                <ModalEmailReq
-                    // handleOpenEmailRequest={this.handleOpenEmailRequest}
+                <ModalEmailReq //modal window for blank email body
                     handleCloseEmailRequest={this.handleCloseEmailRequest}
                     show9={this.state.show9}
                 />
 
-                <ModalEmailConf
+                <ModalEmailConf //modal window for email sent confirmation
                     handleCloseEmailConfirmation={this.handleCloseEmailConfirmation}
                     show10={this.state.show10}
                 />
 
-                <ModalNoResults
+                <ModalNoResults //modal window for no results returned
                     handleCloseNoResults={this.handleCloseNoResults}
                     show11={this.state.show11}
                 />

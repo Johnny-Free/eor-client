@@ -7,7 +7,6 @@ export default class SearchInput extends Component{
         return(
             <div id='parentInputDiv'>
                 <div id='inputDiv'>
-                    {/* <h1>Search Input</h1> */}
                     <hr/>
                     <Form>
                         <Form.Row> 
