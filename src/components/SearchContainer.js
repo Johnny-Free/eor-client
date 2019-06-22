@@ -198,7 +198,7 @@ export default class SearchContainer extends Component{
             })
             .then(res => res.json())
             .then(response => console.log('Sucess:', JSON.stringify(response)))
-            .catch(error => console.log('error:', error));
+            .catch(error => console.log('error:', error))
             this.setState({
                 alertTitle:'Request Sent',
                 alertBody:'Your request has been sent. Please allow 6 days to process your request, thank you.'
