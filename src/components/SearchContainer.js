@@ -3,19 +3,10 @@ import Results from './Results';
 import SearchInput from './SearchInput';
 import Request from './Request';
 import Header from './Header';
-import ModalClaim from '../components/modals/ModalClaim';
-import ModalTaxId1 from '../components/modals/ModalTaxId1';
-import ModalTaxId2 from '../components/modals/ModalTaxId2';
-import ModalDos from '../components/modals/ModalDos';
-import ModalAmt from '../components/modals/ModalAmt';
 import ModalExample from '../components/modals/ModalExample';
-import ModalEmName from '../components/modals/ModalEmName';
-import ModalEmailAddr from '../components/modals/ModalEmailAddr';
-import ModalEmailReq from '../components/modals/ModalEmailReq';
-import ModalEmailConf from '../components/modals/ModalEmailConf';
 import ModalNoResults from '../components/modals/ModalNoResults';
-import ModalTaxId3 from '../components/modals/ModalTaxId3';
-import '../components/stylesheets/SearchContainer.css'
+import ModalAlert from '../components/modals/ModalAlert';
+import '../components/stylesheets/SearchContainer.css';
 
 export default class SearchContainer extends Component{
     constructor(props){
@@ -26,17 +17,10 @@ export default class SearchContainer extends Component{
             flag3:false, //email
             flag4:true,//header information
             show1:false, //example modal
-            show2:false, //claim number blank modal
-            show3:false, //tax id number blank modal
-            show4:false, //dos is blank modal
-            show5:false, //billed amt blank modal
-            show6:false, //tax id length <> 9 char modal
-            show7:false, //requestors name blank modal
-            show8:false, //email address blank modal
-            show9:false, //request blank modal
-            show10:false, //email confirmation modal
             show11:false, //no results modal
-            show12:false, //tax id number contains characters other than numeric
+            show13:false, //alert modal
+            alertTitle:'', //alert title for modal
+            alertBody:'', // alert body for modal
             sClaim:'', //search claim number input
             sTaxId:'', //search tax id input
             sDos:'', //search date of service input
@@ -53,72 +37,60 @@ export default class SearchContainer extends Component{
         this.handleEmailExit=this.handleEmailExit.bind(this);
         this.handleCloseExample=this.handleCloseExample.bind(this);
         this.handleOpenExample=this.handleOpenExample.bind(this);
-        this.handleCloseClaim=this.handleCloseClaim.bind(this);
-        this.handleOpenClaim=this.handleOpenClaim.bind(this);
-        this.handleCloseTaxId1=this.handleCloseTaxId1.bind(this);
-        this.handleOpenTaxId1=this.handleOpenTaxId1.bind(this);
-        this.handleCloseTaxId2=this.handleCloseTaxId2.bind(this);
-        this.handleOpenTaxId2=this.handleOpenTaxId2.bind(this);
-        this.handleOpenDos=this.handleOpenDos.bind(this);
-        this.handleCloseDos=this.handleCloseDos.bind(this);
-        this.handleOpenAmt=this.handleOpenAmt.bind(this);
-        this.handleCloseAmt=this.handleCloseAmt.bind(this);
-        this.handleOpenRequestName=this.handleOpenRequestName.bind(this);
-        this.handleCloseRequestName=this.handleCloseRequestName.bind(this);
-        this.handleOpenEmailAddress=this.handleOpenEmailAddress.bind(this);
-        this.handleCloseEmailAddress=this.handleCloseEmailAddress.bind(this);
-        this.handleOpenEmailRequest=this.handleOpenEmailRequest.bind(this);
-        this.handleCloseEmailRequest=this.handleCloseEmailRequest.bind(this);
-        this.handleOpenEmailConfirmation=this.handleOpenEmailConfirmation.bind(this);
-        this.handleCloseEmailConfirmation=this.handleCloseEmailConfirmation.bind(this);
         this.handleOpenNoResults=this.handleOpenNoResults.bind(this);
         this.handleCloseNoResults=this.handleCloseNoResults.bind(this);
-        this.handleOpenTaxId3=this.handleOpenTaxId3.bind(this);
-        this.handleCloseTaxId3=this.handleCloseTaxId3.bind(this);
+        this.handleOpenAlert=this.handleOpenAlert.bind(this);
+        this.handleCloseAlert=this.handleCloseAlert.bind(this);
     }
 
     //modal event handlers
     handleOpenExample(){this.setState({show1:true});} //opens the example modal
     handleCloseExample(){this.setState({show1:false});} //closes the example modal
-    handleOpenClaim(){this.setState({show2:true});} //opens the claim modal
-    handleCloseClaim(){this.setState({show2:false});} //closes the claim modal
-    handleOpenTaxId1(){this.setState({show3:true});} //opens the claim modal
-    handleCloseTaxId1(){this.setState({show3:false});} //closes the claim modal
-    handleOpenTaxId2(){this.setState({show6:true});} //opens the claim modal
-    handleCloseTaxId2(){this.setState({show6:false});} //closes the claim modal
-    handleOpenDos(){this.setState({show4:true});} //opens the dos modal
-    handleCloseDos(){this.setState({show4:false});} //closes the dos modal
-    handleOpenAmt(){this.setState({show5:true});} //open the billed amt modal
-    handleCloseAmt(){this.setState({show5:false})} //close the billed amt modal
-    handleOpenRequestName(){this.setState({show7:true});} //open the requestors name modal
-    handleCloseRequestName(){this.setState({show7:false});} //closes the requestors name modal
-    handleOpenEmailAddress(){this.setState({show8:true});} //open no email addr modal
-    handleCloseEmailAddress(){this.setState({show8:false});} //close no email addr modal
-    handleOpenEmailRequest(){this.setState({show9:true});} //open no email body modal
-    handleCloseEmailRequest(){this.setState({show9:false});} // close no email body modal
-    handleOpenEmailConfirmation(){this.setState({show10:true});} // open email sent confirmation modal
-    handleCloseEmailConfirmation(){this.setState({show10:false});} //close email sent confirmation modal
-    handleOpenNoResults(){this.setState({show11:true});} //open no search results modal
-    handleCloseNoResults(){this.setState({show11:false});} //close no search results modal
-    handleOpenTaxId3(){this.setState({show12:true});} //opens tax id with non numeric char modal
-    handleCloseTaxId3(){this.setState({show12:false});} //close tax id with non numeric char modal
+    handleOpenNoResults(){this.setState({show11:true});} //open no results modal
+    handleCloseNoResults(){this.setState({show11:false});} //close no results modal
+    handleOpenAlert(){this.setState({show13:true});}
+    handleCloseAlert(){this.setState({show13:false});}
 
     //event handler for input
     handleSearchClick(event){
         var isNum = /^-{0,1}\d+$/.test(document.getElementById('sTaxId').value); //checks for non-numeric in taxid
         event.preventDefault();
         if (document.getElementById('sClaim').value===''){ //if claim is blank modal will appear
-            this.handleOpenClaim();
+            this.setState({
+                alertTitle:'Claim Number Required',
+                alertBody:'Please enter a claim number.'
+            });
+            this.handleOpenAlert();
         } else if (document.getElementById('sTaxId').value===''){ //if tax id is blank modal will appear
-            this.handleOpenTaxId1();
+            this.setState({
+                alertTitle:'Tax Id Number Required',
+                alertBody:'Please enter a tax id number'
+            });
+            this.handleOpenAlert();
         }else if (document.getElementById('sTaxId').value.length !== 9){ //if tax id length <>9 modal will appear
-            this.handleOpenTaxId2();
+            this.setState({
+                alertTitle:'Invalid Tax Id',
+                alertBody:'Please enter a valid tax id number'
+            });
+            this.handleOpenAlert();
         }else if (!isNum){ //checks to see if the var for non-numeric is false, modal will appear
-            this.handleOpenTaxId3(); 
+            this.setState({
+                alertTitle:'Invalid Tax Id',
+                alertBody:'Please enter a valid tax id number'
+            });
+            this.handleOpenAlert();
         }else if (document.getElementById('sDos').value===''){ //if dos is blank modal will appear
-            this.handleOpenDos();
+            this.setState({
+                alertTitle:'Begining Date of Service is Required',
+                alertBody:'Please enter the begining date of service'
+            });
+            this.handleOpenAlert();
         } else if (document.getElementById('sBilled').value===''){ //if billed is blank modal will appear
-            this.handleOpenAmt();
+            this.setState({
+                alertTitle:'Total Billed Amount is Required',
+                alertBody:'The total billed amount is required'
+            });
+            this.handleOpenAlert();
         }else if (((document.getElementById('sClaim').value).substring(0,2)!=='WC') &&
             ((document.getElementById('sClaim').value).substring(0,2)!=='wc')){  //checks to see if the claim number starts with WC
             this.setState({
@@ -185,11 +157,23 @@ export default class SearchContainer extends Component{
     handleEmailSubmit(event){
         event.preventDefault();
         if(document.getElementById('rName').value===''){
-            this.handleOpenRequestName();
+            this.setState({
+                alertTitle:"Requestor's Name Required",
+                alertBody:'Please enter your name'
+            });
+            this.handleOpenAlert();
         } else if (document.getElementById('rEmail').value==='') {
-            this.handleOpenEmailAddress();
+            this.setState({
+                alertTitle:"Requestor's Email Address Required",
+                alertBody:'Please enter your email address'
+            });
+            this.handleOpenAlert();
         } else if (document.getElementById('rBody').value==='') {
-            this.handleOpenEmailRequest();
+            this.setState({
+                alertTitle:"Request",
+                alertBody:'Please enter your request'
+            });
+            this.handleOpenAlert();
         } else {
             var data={
                 rBody:document.getElementById('rBody').value,
@@ -215,7 +199,11 @@ export default class SearchContainer extends Component{
             .then(res => res.json())
             .then(response => console.log('Sucess:', JSON.stringify(response)))
             .catch(error => console.log('error:', error));
-            this.handleOpenEmailConfirmation();
+            this.setState({
+                alertTitle:'Request Sent',
+                alertBody:'Your request has been sent. Please allow 6 days to process your request, thank you.'
+            });
+            this.handleOpenAlert();
         }
     }
 
@@ -223,29 +211,11 @@ export default class SearchContainer extends Component{
         return(
             <div className='sContainer'>
 
-                <ModalClaim //modal window for blank claim
-                    handleCloseClaim={this.handleCloseClaim}
-                    show2={this.state.show2}
-                />
-
-                <ModalTaxId1 //modal window for blank tax id
-                    handleCloseTaxId1={this.handleCloseTaxId1}
-                    show3={this.state.show3}
-                />
-
-                <ModalTaxId2 //modal window for tax id not 9 char
-                    handleCloseTaxId2={this.handleCloseTaxId2}
-                    show6={this.state.show6}
-                />
-
-                <ModalDos //modal window for blank dos
-                    handleCloseDos={this.handleCloseDos}
-                    show4={this.state.show4}
-                />
-
-                <ModalAmt  //modal window for blank billed amount
-                    handleCloseAmt={this.handleCloseAmt}
-                    show5={this.state.show5}
+                <ModalAlert //modal for alerts
+                    handleCloseAlert={this.handleCloseAlert}
+                    show13={this.state.show13}
+                    alertBody={this.state.alertBody}
+                    alertTitle={this.state.alertTitle}
                 />
 
                 <ModalExample //modal window to show examples
@@ -253,36 +223,12 @@ export default class SearchContainer extends Component{
                     show1={this.state.show1}
                 />
 
-                <ModalEmName //modal window for blank requestors name
-                    handleCloseRequestName={this.handleCloseRequestName}
-                    show7={this.state.show7}
-                />
-
-                <ModalEmailAddr //modal window for blank email address
-                    handleCloseEmailAddress={this.handleCloseEmailAddress}
-                    show8={this.state.show8}
-                />
-
-                <ModalEmailReq //modal window for blank email body
-                    handleCloseEmailRequest={this.handleCloseEmailRequest}
-                    show9={this.state.show9}
-                />
-
-                <ModalEmailConf //modal window for email sent confirmation
-                    handleCloseEmailConfirmation={this.handleCloseEmailConfirmation}
-                    show10={this.state.show10}
-                />
-
                 <ModalNoResults //modal window for no results returned
                     handleCloseNoResults={this.handleCloseNoResults}
                     show11={this.state.show11}
                 />
 
-                <ModalTaxId3
-                    handleCloseTaxId3={this.handleCloseTaxId3}
-                    show12={this.state.show12}
-                />
-                
+
                 {this.state.flag4 && //header information
                     <Header
                         handleEmailClick={this.handleEmailClick}
