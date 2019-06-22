@@ -15,9 +15,7 @@ import ModalEmailReq from '../components/modals/ModalEmailReq';
 import ModalEmailConf from '../components/modals/ModalEmailConf';
 import ModalNoResults from '../components/modals/ModalNoResults';
 import ModalTaxId3 from '../components/modals/ModalTaxId3';
-
 import '../components/stylesheets/SearchContainer.css'
-
 
 export default class SearchContainer extends Component{
     constructor(props){
