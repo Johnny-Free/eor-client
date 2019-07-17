@@ -23,7 +23,9 @@ export default class Results extends Component{
     var cDos = this.props.sDos;
     var cBilled = this.props.sBilled;
     var check=this.didLoads
+    // fetch(`http://localhost:3001/api/search/${cNumber}/${cId}/${cDos}/${cBilled}`)
     fetch(`https://eor-api-5811.herokuapp.com/api/search/${cNumber}/${cId}/${cDos}/${cBilled}`)
+
 
       .then(function(response){
         response.json()
